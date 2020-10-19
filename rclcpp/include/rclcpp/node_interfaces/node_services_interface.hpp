@@ -15,6 +15,8 @@
 #ifndef RCLCPP__NODE_INTERFACES__NODE_SERVICES_INTERFACE_HPP_
 #define RCLCPP__NODE_INTERFACES__NODE_SERVICES_INTERFACE_HPP_
 
+#include <string>
+
 #include "rclcpp/callback_group.hpp"
 #include "rclcpp/client.hpp"
 #include "rclcpp/macros.hpp"
