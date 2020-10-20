@@ -4,8 +4,6 @@ get_target_property(
   performance_test_fixture::performance_test_fixture
   INTERFACE_INCLUDE_DIRECTORIES)
 
-find_package(test_msgs REQUIRED)
-
 function(add_rclcpp_benchmark NAME SOURCE)
   set(multiValueArgs LIBRARIES)
   cmake_parse_arguments(RCLCPP_BENCHMARK "" "" "LIBRARIES" ${ARGN})
