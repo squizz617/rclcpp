@@ -4,9 +4,12 @@ get_target_property(
   performance_test_fixture::performance_test_fixture
   INTERFACE_INCLUDE_DIRECTORIES)
 
+find_package(test_msgs REQUIRED)
+
 function(add_rclcpp_benchmark NAME SOURCE)
-  cmake_parse_arguments(RCLCPP_BENCHMARK "" "LIBRARIES" "")
-  if(RCLCPP_UNPARSED_ARGUMENTS)
+  set(multiValueArgs LIBRARIES)
+  cmake_parse_arguments(RCLCPP_BENCHMARK "" "" "LIBRARIES" ${ARGN})
+  if(RCLCPP_BENCHMARK_UNPARSED_ARGUMENTS)
     message(
       FATAL_ERROR
       "Unrecognized arguments for 'add_rclcpp_benchmark'"
@@ -20,12 +23,13 @@ function(add_rclcpp_benchmark NAME SOURCE)
   set(full_benchmark_name ${NAME}${target_suffix})
   add_performance_test(${full_benchmark_name} ${SOURCE})
   if(TARGET ${full_benchmark_name})
-    target_link_libraries(${full_benchmark_name} ${PROJECT_NAME} ${LIBRARIES})
+    target_link_libraries(${full_benchmark_name} ${PROJECT_NAME} ${RCLCPP_BENCHMARK_LIBRARIES})
   endif()
 endfunction()
 
 # Add new benchmarks inside this macro
 macro(rclcpp_benchmarks)
+  add_rclcpp_benchmark(benchmark_executor benchmark_executor.cpp LIBRARIES ${test_msgs_LIBRARIES})
   add_rclcpp_benchmark(benchmark_init_shutdown benchmark_init_shutdown.cpp)
   add_rclcpp_benchmark(benchmark_node benchmark_node.cpp)
 endmacro()
